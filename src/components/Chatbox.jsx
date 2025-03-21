@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { FaMicrophone, FaPaperPlane } from "react-icons/fa";
+import { FaMicrophone } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
+import axios from "axios";
 
 const Chatbot = () => {
   const [messages, setMessages] = useState([]);
@@ -18,18 +19,22 @@ const Chatbot = () => {
     }
   }, [transcript]);
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (!input.trim()) return;
+
     const userMessage = { text: input, sender: "user" };
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     resetTranscript();
-    
-    // Simulating bot response (Replace with API call)
-    setTimeout(() => {
-      const botMessage = { text: "This is a bot response", sender: "bot" };
+
+    try {
+      const response = await axios.post("http://localhost:8080/api/chat", { message: input });
+      const botMessage = { text: response.data?.text || "I'm sorry, I couldn't process your request.", sender: "bot" };      setMessages((prev) => [...prev, botMessage]);
+    } catch (error) {
+      console.error("Error:", error);
+      const botMessage = { text: "I'm sorry, I couldn't process your request.", sender: "bot" };
       setMessages((prev) => [...prev, botMessage]);
-    }, 1000);
+    }
   };
 
   const startListening = () => {
@@ -42,6 +47,7 @@ const Chatbot = () => {
     SpeechRecognition.stopListening();
   };
 
+  const userMessage = { id: Date.now(), text: input, sender: "user" };
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
@@ -58,14 +64,15 @@ const Chatbot = () => {
         <MdClose className="cursor-pointer text-2xl" />
       </div>
       <div className="p-4 h-64 overflow-y-auto">
-        {messages.map((msg, index) => (
-          <div
-            key={index}
-            className={`mb-2 p-2 rounded-lg ${msg.sender === "user" ? "bg-blue-500 text-white self-end" : "bg-gray-200 text-black self-start"}`}
-          >
-            {msg.text}
-          </div>
-        ))}
+      {messages.map((msg) => (
+  <div className="flex flex-col" key={msg.id}>
+    <div
+      className={`mb-2 p-2 rounded-lg max-w-[75%] ${msg.sender === "user" ? "bg-blue-500 text-white self-end ml-auto" : "bg-gray-200 text-black self-start mr-auto"}`}
+    >
+      {msg.text}
+    </div>
+  </div>
+))}
         <div ref={chatEndRef}></div>
       </div>
       <div className="p-4 border-t flex gap-2">
