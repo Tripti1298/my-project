@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { FaMicrophone, FaPaperPlane } from "react-icons/fa";
+import { FaMicrophone } from "react-icons/fa";
 import { IoMdSend } from "react-icons/io";
 import { MdClose } from "react-icons/md";
 import SpeechRecognition, { useSpeechRecognition } from "react-speech-recognition";
@@ -24,8 +24,7 @@ const Chatbot = () => {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     resetTranscript();
-    
-    // Simulating bot response (Replace with API call)
+
     setTimeout(() => {
       const botMessage = { text: "This is a bot response", sender: "bot" };
       setMessages((prev) => [...prev, botMessage]);
@@ -48,47 +47,86 @@ const Chatbot = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
+      initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.3 }}
-      className="fixed bottom-5 right-5 w-80 bg-white shadow-lg rounded-lg overflow-hidden"
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="fixed bottom-5 right-5 w-80 bg-white shadow-xl rounded-lg overflow-hidden border border-gray-200"
     >
-      <div className="bg-blue-600 text-white p-4 flex justify-between items-center">
+      <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4 flex justify-between items-center">
         <h2 className="text-lg font-semibold">Chatbot</h2>
-        <MdClose className="cursor-pointer text-2xl" />
+        <motion.button
+          whileHover={{ scale: 1.2, rotate: 90 }}
+          whileTap={{ scale: 0.9 }}
+          className="cursor-pointer text-2xl"
+        >
+          <MdClose />
+        </motion.button>
       </div>
-      <div className="p-4 h-64 overflow-y-auto">
+
+      <div className="p-4 h-64 overflow-y-auto space-y-2">
         {messages.map((msg, index) => (
-          <div
+          <motion.div
             key={index}
-            className={`mb-2 p-2 rounded-lg ${msg.sender === "user" ? "bg-blue-500 text-white self-end" : "bg-gray-200 text-black self-start"}`}
+            initial={{ opacity: 0, x: msg.sender === "user" ? 50 : -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.3, delay: index * 0.1 }}
+            className={`p-2 rounded-lg max-w-xs ${
+              msg.sender === "user"
+                ? "bg-blue-500 text-white self-end ml-auto"
+                : "bg-gray-200 text-black self-start mr-auto"
+            }`}
           >
             {msg.text}
-          </div>
+          </motion.div>
         ))}
         <div ref={chatEndRef}></div>
       </div>
+
       <div className="p-4 border-t flex gap-2">
-        <button className="bg-gray-300 px-3 py-1 rounded" onClick={() => setInput("Where is the library?")}>Library</button>
-        <button className="bg-gray-300 px-3 py-1 rounded" onClick={() => setInput("What is today’s mess menu?")}>Mess Menu</button>
+        <motion.button
+          whileHover={{ scale: 1.1, backgroundColor: "#60A5FA" }}
+          className="bg-gray-300 px-3 py-1 rounded transition"
+          onClick={() => setInput("Where is the library?")}
+        >
+          Library
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.1, backgroundColor: "#60A5FA" }}
+          className="bg-gray-300 px-3 py-1 rounded transition"
+          onClick={() => setInput("What is today’s mess menu?")}
+        >
+          Mess Menu
+        </motion.button>
       </div>
+
       <div className="p-4 border-t flex items-center gap-2">
         <input
           type="text"
-          className="flex-1 border p-2 rounded"
+          className="flex-1 border p-2 rounded outline-none focus:ring-2 focus:ring-blue-400"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message..."
         />
-        <button className="bg-blue-500 text-white p-2 rounded" onClick={sendMessage}>
-          <IoMdSend />
-        </button>
-        <button
-          className={`p-2 rounded-full ${isListening ? "bg-red-500" : "bg-green-500"}`}
+        
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white p-2 rounded-full shadow-lg animate-pulse"
+          onClick={sendMessage}
+        >
+          <IoMdSend className="text-xl" />
+        </motion.button>
+ 
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          className={`p-2 rounded-full shadow-lg transition ${
+            isListening ? "bg-red-500 animate-pulse" : "bg-green-500"
+          }`}
           onClick={isListening ? stopListening : startListening}
         >
-          <FaMicrophone className="text-white" />
-        </button>
+          <FaMicrophone className="bg-green-500 animate-pulse"  />
+        </motion.button>
       </div>
     </motion.div>
   );
