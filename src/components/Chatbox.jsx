@@ -82,22 +82,7 @@ const Chatbot = () => {
         <div ref={chatEndRef}></div>
       </div>
 
-      <div className="p-4 border-t flex gap-2">
-        <motion.button
-          whileHover={{ scale: 1.1, backgroundColor: "#60A5FA" }}
-          className="bg-gray-300 px-3 py-1 rounded transition"
-          onClick={() => setInput("Where is the library?")}
-        >
-          Library
-        </motion.button>
-        <motion.button
-          whileHover={{ scale: 1.1, backgroundColor: "#60A5FA" }}
-          className="bg-gray-300 px-3 py-1 rounded transition"
-          onClick={() => setInput("What is today’s mess menu?")}
-        >
-          Mess Menu
-        </motion.button>
-      </div>
+      
 
       <div className="p-4 border-t flex items-center gap-2">
         <input

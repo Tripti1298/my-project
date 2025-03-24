@@ -3,30 +3,37 @@ import gsap from "gsap";
 import { Observer } from "gsap/Observer";
 import SplitType from "split-type";
 
+import chatBg1 from "../assets/chat-bg1.png";
+import chatBg2 from "../assets/chat-bg2.png";
+import chatBg3 from "../assets/chat-bg3.png";
+import chatBg4 from "../assets/chat-bg4.png";
+import chatBg5 from "../assets/chat-bg5.png";
+import { div } from "framer-motion/client";
 gsap.registerPlugin(Observer);
 
 const sections = [
   {
-    text: "Scroll down",
-    bg: "https://images.unsplash.com/photo-1617478755490-e21232a5eeaf?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTYxNzU1NjM5NA&ixlib=rb-1.2.1&q=75&w=1920",
+    text: "Start Chat🚀 Now!",
+    bg: chatBg1,
   },
   {
-    text: "Animated with GSAP",
-    bg: "https://images.unsplash.com/photo-1617128734662-66da6c1d3505?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTYxNzc3NTM3MA&ixlib=rb-1.2.1&q=75&w=1920",
+    text: "Here to assist you anytime!⏳",
+    bg: chatBg2,
   },
   {
-    text: "GreenSock",
-    bg: "https://images.unsplash.com/photo-1617438817509-70e91ad264a5?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTYxNzU2MDk4Mg&ixlib=rb-1.2.1&q=75&w=1920",
+    text: "Smooth, interactive experience✨",
+    bg: chatBg3,
   },
   {
-    text: "Animation platform",
-    bg: "https://images.unsplash.com/photo-1617412327653-c29093585207?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTYxNzU2MDgzMQ&ixlib=rb-1.2.1&q=75&w=1920",
+    text: "I’m Your AI Sidekick!",
+    bg: chatBg4,
   },
   {
-    text: "Keep scrolling",
-    bg: "https://images.unsplash.com/photo-1617141636403-f511e2d5dc17?crop=entropy&cs=srgb&fm=jpg&ixid=MnwxNDU4OXwwfDF8cmFuZG9tfHx8fHx8fHx8MTYxODAzMjc4Mw&ixlib=rb-1.2.1&q=75w=1920",
+    text: "Smart AI Chatbot",
+    bg: chatBg5,
   },
 ];
+
 
 const AnimatedSections = () => {
   const sectionRefs = useRef([]);
@@ -78,10 +85,10 @@ const AnimatedSections = () => {
 
   return (
     <div className="relative h-screen w-full bg-black text-white font-serif">
-      <header className="fixed top-0 w-full flex justify-between items-center p-5 z-10 text-sm tracking-wider uppercase">
-        <div>Animated Sections</div>
+      <header className="fixed top-0 w-full flex justify-between items-center p-10 z-10 text-sm tracking-wider uppercase">
+        <div>IIT-INDORE</div>
         <div>
-          <a href="https://codepen.io/BrianCross/pen/PoWapLP" className="text-white">Original By Brian</a>
+          <a href="https://codepen.io/BrianCross/pen/PoWapLP" className="text-white"></a>
         </div>
       </header>
       {sections.map((section, i) => (
